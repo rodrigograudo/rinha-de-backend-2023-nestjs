@@ -1,7 +1,7 @@
 version: '3.5'
 services:
   api1: # API - Instância 01
-    image: rinha-de-backend-2023-q3-nestjs
+    image: rodrigograudo/rinha-de-backend-2023-q3-nestjs:latest
     hostname: api1
     depends_on:
       db:
@@ -17,7 +17,7 @@ services:
           memory: '0.5GB'
 
   api2: # API - Instância 01
-    image: rinha-de-backend-2023-q3-nestjs 
+    image: rodrigograudo/rinha-de-backend-2023-q3-nestjs:latest
     hostname: api2
     depends_on:
       db:
