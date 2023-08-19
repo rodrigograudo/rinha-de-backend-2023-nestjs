@@ -15,5 +15,7 @@ export class CreatePessoaRequestDto {
 
   @IsOptional()
   @IsArray()
+  @IsNotEmpty({ each: true })
+  @MaxLength(32, { each: true })
   stack: string[];
 }
