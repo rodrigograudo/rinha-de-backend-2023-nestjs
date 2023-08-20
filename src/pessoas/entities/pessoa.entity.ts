@@ -7,6 +7,7 @@ export class Pessoa {
   id: string;
 
   @Column({ length: 32 })
+  @Index({ unique: true })
   apelido: string;
 
   @Column({ length: 100 })

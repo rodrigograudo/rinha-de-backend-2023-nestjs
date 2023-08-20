@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Pessoa } from './entities/pessoa.entity';
 import { Repository } from 'typeorm';
@@ -14,13 +14,21 @@ export class PessoasService {
   async create(
     createPessoaRequestDto: CreatePessoaRequestDto,
   ): Promise<Pessoa> {
-    const pessoa = new Pessoa();
-    pessoa.apelido = createPessoaRequestDto.apelido;
-    pessoa.nome = createPessoaRequestDto.nome;
-    pessoa.nascimento = createPessoaRequestDto.nascimento;
-    pessoa.stack = createPessoaRequestDto.stack;
-    await this.pessoasRepository.insert(pessoa);
-    return pessoa;
+    try {
+      const pessoa = new Pessoa();
+      pessoa.apelido = createPessoaRequestDto.apelido;
+      pessoa.nome = createPessoaRequestDto.nome;
+      pessoa.nascimento = createPessoaRequestDto.nascimento;
+      pessoa.stack = createPessoaRequestDto.stack;
+      await this.pessoasRepository.insert(pessoa);
+      return pessoa;
+    } catch (error) {
+      if (error.code == 'ER_DUP_ENTRY') {
+        throw new UnprocessableEntityException(
+          `Apelido ${createPessoaRequestDto.apelido} já foi inserido`,
+        );
+      }
+    }
   }
 
   async findById(id: string): Promise<Pessoa> {
