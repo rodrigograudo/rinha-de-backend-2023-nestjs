@@ -13,17 +13,17 @@ async function bootstrap() {
       transform: true,
       exceptionFactory: (errors) => {
         const errorsMessages = [];
-        let isSemanticError = false;
+        let isSyntacticalError = false;
 
         for (const error of errors) {
           if (Object.keys(error.constraints).includes('isString')) {
-            isSemanticError = true;
+            isSyntacticalError = true;
           }
 
           errorsMessages.push(...Object.values(error.constraints));
         }
 
-        if (isSemanticError) {
+        if (isSyntacticalError) {
           return new BadRequestException(errorsMessages);
         } else {
           return new UnprocessableEntityException(errorsMessages);
